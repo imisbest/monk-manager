@@ -1,0 +1,40 @@
+# 服务器相关配置
+server:
+  port: 8989
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+# spring相关配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: 111
+    url: jdbc:mysql://192.168.147.131:3306/monk-manager?characterEncoding=UTF-8
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /
+  redis:
+    host: 192.168.147.131
+    port: 7000
+    database: 0
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.147.131:9300
+#  servlet:
+#    multipart:
+#      max-file-size: 50MB
+#      max-request-size: 100MB
+  main:
+    allow-bean-definition-overriding: true
+# mybatis相关配置
+mybatis:
+  type-aliases-package: com.csw.monkmanager.entity
+  mapper-locations: classpath:com/csw/mapper/monkmanager/*Mapper.xml
+# 日志
+logging:
+  level:
+    com.csw.dao: debug

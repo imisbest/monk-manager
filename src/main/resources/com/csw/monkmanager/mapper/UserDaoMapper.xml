@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csw.monkmanager.dao.UserDao">
+
+    <select id="find1" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where sex = #{sex1}
+          and DATE_SUB(NOW(), INTERVAL #{s} day) &lt; rigest_date
+    </select>
+    <select id="find2" resultType="java.lang.Integer">
+        select count(*)
+        from user
+        where sex = #{sex2}
+          and DATE_SUB(NOW(), INTERVAL #{s} day) &lt; rigest_date
+    </select>
+    <select id="showAllMap" resultType="MapVO">
+        select location name, count(*) `value`
+        from user
+        where sex = #{sex1}
+        GROUP by location
+    </select>
+    <select id="selectByAB" resultType="User">
+        select *
+        from user
+        where phone = #{phone}
+          and password = #{password}
+    </select>
+</mapper>

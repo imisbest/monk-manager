@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.csw.monkmanager.dao.AdminDao">
+    <resultMap id="xx" type="Admin">
+        <id property="id" column="aid"></id>
+        <result property="username" column="ausername"></result>
+        <result property="password" column="apassword"></result>
+        <collection property="roles" ofType="Role">
+            <id property="id" column="rid"></id>
+            <result property="role_name" column="ron"></result>
+            <collection property="resources" ofType="Resource">
+                <id property="id" column="reid"></id>
+                <result property="resource_name" column="ren"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="queryAdminInfo" resultMap="xx">
+        select a.id             as aid,
+               a.username       as ausername,
+               a.password       as apassword,
+               r.id             as rid,
+               r.role_name      as ron,
+               re.id            as reid,
+               re.resource_name as ren
+        from admin a
+                 left join admin_role ar on a.id = ar.a_id
+                 left join role r on r.id = ar.role_id
+                 left join role_resource rr on r.id = rr.role_id
+                 left join resource re on re.id = rr.resource_id
+        where a.username = #{primaryPrincipal}
+    </select>
+    <select id="findByPage" resultMap="xx">
+        select a.id             as aid,
+               a.username       as ausername,
+               a.password       as apassword,
+               r.id             as rid,
+               r.role_name      as ron,
+               re.id            as reid,
+               re.resource_name as ren
+        from (select * from admin limit #{start},#{rows}) a
+                 left join admin_role ar on a.id = ar.a_id
+                 left join role r on r.id = ar.role_id
+                 left join role_resource rr on r.id = rr.role_id
+                 left join resource re on re.id = rr.resource_id
+    </select>
+
+</mapper>
+
